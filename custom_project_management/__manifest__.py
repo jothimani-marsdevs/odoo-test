@@ -14,7 +14,8 @@ Custom Project and Task Management
     'category': 'Project',
     'depends': ['base'],
     'data': [
-
+        'security/security.xml',
+        'security/ir.model.access.csv',
     ],
     'demo': [
 
