@@ -1,57 +1,151 @@
-# Odoo Project & Task Management
+# Odoo Project Management Module
 
-A custom module for Odoo 15 that enhances project and task management capabilities with configurable stages, access control, kanban support, and smart business logic.
+A comprehensive project management module for Odoo 15.0 that enhances the default project management capabilities with advanced features, custom workflows, and improved team collaboration.
 
----
+## Table of Contents
+- [Overview](#overview)
+- [Technical Architecture](#technical-architecture)
+- [Detailed Setup Guide](#detailed-setup-guide)
+- [Module Features](#module-features)
+- [Development Guide](#development-guide)
+- [API Documentation](#api-documentation)
+- [Troubleshooting](#troubleshooting)
 
-## 🔧 Features
+## Overview
 
-### ✅ Project Management
-- Create and manage projects with a start and end date.
-- Assign a project manager.
-- Smart button to view related tasks.
-- Automatically computed task statistics (total and completed).
-- Prevent deletion of projects with existing tasks.
+This custom Odoo module provides an enhanced project management experience with:
+- Configurable project workflows
+- Advanced task management
+- Team collaboration features
+- Custom API endpoints
+- Automated business logic
+- Role-based access control
 
-### ✅ Task Management
-- Create tasks with project, deadline, user, and stage.
-- Stages are project-specific and configurable via many2many relation.
-- Automatic status update to "In Progress" when assignee is set.
-- Chatter integration for tasks and projects.
-- Stage-wise Kanban support with fold and statusbar functionality.
+## Technical Architecture
 
-### ✅ Task Stages
-- Custom model `project.task.stage` with:
-  - Project-wise many2many relationship.
-  - Booleans for `is_in_progress` and `is_done`.
-  - Fold field to manage Kanban UI behavior.
-- Automatically sets default stage based on context (`default_project_id`).
+### Technology Stack
+- **Odoo Version**: 15.0
+- **Database**: PostgreSQL 13
+- **Container Runtime**: Docker & Docker Compose
+- **Programming Language**: Python 3.8+
+- **Web Framework**: Odoo Framework
+- **ORM**: Odoo ORM
+- **Frontend**: JavaScript, XML, QWeb templates
 
-### ✅ Security & Access Control
-- Only project managers can create/edit/delete projects.
-- Any authenticated user can view projects and tasks.
-- Fully configured `ir.model.access.csv`.
-
----
-
-## 🚀 Installation
-
-1. Clone this repository into your Odoo addons directory:
-
-```bash
-git clone https://github.com/jothimani-marsdevs/odoo-test.git
+### Module Structure
+```
+custom_project_management/
+├── models/                 # Python model definitions
+│   ├── project.py         # Project model extensions
+│   ├── task.py           # Task model customizations
+│   └── stage.py          # Stage configurations
+├── controllers/           # API endpoints
+│   └── main.py           # REST API implementations
+├── security/             # Access rights and rules
+│   ├── ir.model.access.csv
+│   └── security_rules.xml
+├── views/                # UI definitions
+│   ├── project_views.xml
+│   ├── task_views.xml
+│   └── menu_items.xml
+├── data/                 # Default data
+│   └── default_stages.xml
+└── __manifest__.py       # Module manifest
 ```
 
-## Test API
-1.Get all tasks from specific project
-```bash
-curl -X POST http://localhost:8069/project/2 \
-  -H "Content-Type: application/json" \
-  -d '{}'
-```
-2.Mark as done a stage
-```bash
-curl -X POST http://localhost:8069/task/42/done \
-  -H "Content-Type: application/json" \
-  -d '{}'
-```
+## Detailed Setup Guide
+
+### Prerequisites
+1. **System Requirements**:
+   - Linux/Unix-based system (recommended)
+   - Docker Engine 20.10+
+   - Docker Compose 2.0+
+   - 4GB RAM minimum
+   - 10GB free disk space
+
+2. **Port Requirements**:
+   - 8069: Odoo web interface
+   - 5432: PostgreSQL (internal)
+
+### Step-by-Step Installation
+
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/jothimani-marsdevs/odoo-test.git
+   cd odoo-test
+   ```
+
+2. **Environment Configuration**:
+   ```bash
+   cp .env.example .env
+   ```
+   Edit `.env` file with your settings:
+   - `ODOO_PORT`: Web interface port (default: 8069)
+   - `DB_PASSWORD`: Set a secure database password
+   - `ODOO_ADMIN_PASSWORD`: Set admin password
+   - See `.env.example` for all available options
+
+3. **Build and Start Services**:
+   ```bash
+   docker-compose build
+   docker-compose up -d
+   ```
+
+4. **First-time Setup**:
+   - Access `http://localhost:8069`
+   - Create database:
+     - Master Password: (from ODOO_ADMIN_PASSWORD)
+     - Database Name: (from DB_NAME)
+     - Email: admin
+     - Password: (set a secure password)
+   - The module will be automatically installed
+
+5. **Verify Installation**:
+   - Login as admin
+   - Navigate to Apps
+   - Search for "Project Management"
+   - Verify module is installed and active
+
+### Post-Installation Configuration
+
+1. **Configure Project Stages**:
+   - Navigate to Project > Configuration > Stages
+   - Default stages are pre-configured
+   - Add/modify stages as needed
+
+2. **Set Up User Access**:
+   - Go to Settings > Users & Companies
+   - Create users and assign roles:
+     - Project Manager
+     - Project User
+
+## API Documentation
+
+### Available Endpoints
+
+1. **Get Project Tasks**:
+   ```bash
+   curl -X POST http://localhost:8069/project/{project_id} \
+     -H "Content-Type: application/json" \
+     -d '{}'
+   ```
+
+2. **Update Task Stage**:
+   ```bash
+   curl -X POST http://localhost:8069/task/{task_id}/done \
+     -H "Content-Type: application/json" \
+     -d '{}'
+   ```
+
+## Docker Environment Details
+
+### Container Configuration
+- **Odoo Container**:
+  - Port: 8069 (configurable)
+  - Custom addons path: /mnt/extra-addons
+  - Config file: /etc/odoo
+  
+- **PostgreSQL Container**:
+  - Version: 13
+  - Credentials in `.env`
+  - Persistent volume
