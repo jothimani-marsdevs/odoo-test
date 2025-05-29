@@ -1,0 +1,53 @@
+<odoo>
+    <record id="view_project_task_stage_form" model="ir.ui.view">
+        <field name="name">project.task.stage.form</field>
+        <field name="model">project.task.stage</field>
+        <field name="arch" type="xml">
+            <form string="Task Stage">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Stage Name"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="fold"/>
+                            <field name="is_in_progress"/>
+                            <field name="is_done"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="project_ids" widget="many2many_tags"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_project_task_stage_tree" model="ir.ui.view">
+        <field name="name">project.task.stage.tree</field>
+        <field name="model">project.task.stage</field>
+        <field name="arch" type="xml">
+            <tree string="Task Stages" default_order="sequence">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="fold"/>
+                <field name="project_ids" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_project_task_stage" model="ir.actions.act_window">
+        <field name="name">Task Stages</field>
+        <field name="res_model">project.task.stage</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>Define the stages available for tasks per project.</p>
+        </field>
+    </record>
+</odoo>

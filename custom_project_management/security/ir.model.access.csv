@@ -4,3 +4,6 @@ access_project_manager,access.project.manager,model_project_project,group_projec
 
 access_project_task_user,access.project.task.user,model_project_task,group_project_user,1,0,0,0
 access_project_task_manager,access.project.task.manager,model_project_task,group_project_manager,1,1,1,1
+
+access_project_task_stage_user,access.project.task.stage.user,model_project_task_stage,group_project_user,1,0,0,0
+access_project_task_stage_manager,access.project.task.stage.manager,model_project_task_stage,group_project_manager,1,1,1,1

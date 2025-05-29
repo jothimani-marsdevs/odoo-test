@@ -12,13 +12,17 @@ Custom Project and Task Management
     'author': 'Jothimani Rajagopal / MarsDevs',
     'website': 'https://marsdevs.com',
     'category': 'Project',
-    'depends': ['base'],
+    'depends': ['base', 'mail'],
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
+        'views/project_views.xml',
+        'views/task_views.xml',
+        'views/project_task_stage_views.xml',
+        'views/menu.xml',
     ],
     'demo': [
-
+        'data/demo.xml',
     ],
     'installable': True,
     'application': True,
